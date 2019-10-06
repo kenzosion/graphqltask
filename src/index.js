@@ -6,7 +6,8 @@ import { GraphQLServer } from 'graphql-yoga';
 
 const typeDefs = `
     type Query {
-        hello: String!
+        hello: String!,
+        name: String!
     }
 `
 
@@ -16,6 +17,9 @@ const resolvers = {
     Query: {
         hello () {
             return 'This is a resolver!'
+        },
+        name () {
+            return 'Graph Testing'
         }
     }
 }
