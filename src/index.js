@@ -1,1 +1,5 @@
-console.log('hello graphql');
+import { message } from './theDom';
+
+
+
+console.log(message);
