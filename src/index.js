@@ -7,7 +7,8 @@ import { GraphQLServer } from 'graphql-yoga';
 const typeDefs = `
     type Query {
         hello: String!,
-        name: String!
+        name: String!,
+        location: String
     }
 `
 
@@ -20,6 +21,9 @@ const resolvers = {
         },
         name () {
             return 'Graph Testing'
+        },
+        location () {
+            return 'London'
         }
     }
 }
