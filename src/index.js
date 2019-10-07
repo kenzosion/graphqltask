@@ -3,12 +3,15 @@ import subs, { add } from './math';
 import { GraphQLServer } from 'graphql-yoga';
 
 // type definitions (schema)
+// There are 5 Scalar types = String, Boolean, Int. Float and ID
 
 const typeDefs = `
     type Query {
-        hello: String!,
-        name: String!,
-        location: String
+        title: String!,
+        price: Float!,
+        releaseYear: Int,
+        rating: Float,
+        inStock: Boolean!
     }
 `
 
@@ -16,14 +19,20 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        hello () {
-            return 'This is a resolver!'
+        title () {
+            return 'Experience First'
         },
-        name () {
-            return 'Graph Testing'
+        price () {
+            return 8.88
         },
-        location () {
-            return 'London'
+        releaseYear () {
+            return 2019
+        },
+        rating() {
+            return 4.8
+        },
+        inStock() {
+            return true
         }
     }
 }
@@ -39,6 +48,6 @@ server.start(()=> {
 
 
 
-console.log(add(5, 6));
-console.log(subs(10, 5));
-console.log(message);
+// console.log(add(5, 6));
+// console.log(subs(10, 5));
+// console.log(message);
