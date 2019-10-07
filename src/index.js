@@ -1,38 +1,120 @@
-import { message } from './theDom';
-import subs, { add } from './math';
-import { GraphQLServer } from 'graphql-yoga';
+import { GraphQLServer } from 'graphql-yoga'
 
-// type definitions (schema)
-// There are 5 Scalar types = String, Boolean, Int. Float and ID
+// Scalar types - String, Boolean, Int, Float, ID
 
+// Demo user data
+const users = [{
+    id: '1',
+    name: 'Andrew',
+    email: 'andrew@example.com',
+    age: 27
+}, {
+    id: '2',
+    name: 'Sarah',
+    email: 'sarah@example.com'
+}, {
+    id: '3',
+    name: 'Mike',
+    email: 'mike@example.com'
+}]
+
+const posts = [{
+    id: '10',
+    title: 'GraphQL 101',
+    body: 'This is how to use GraphQL...',
+    published: true,
+    author: '1'
+}, {
+    id: '11',
+    title: 'GraphQL 201',
+    body: 'This is an advanced GraphQL post...',
+    published: false,
+    author: '1'
+}, {
+    id: '12',
+    title: 'Programming Music',
+    body: '',
+    published: false,
+    author: '2'
+}]
+
+// Type definitions (schema)
 const typeDefs = `
     type Query {
-        title: String!,
-        price: Float!,
-        releaseYear: Int,
-        rating: Float,
-        inStock: Boolean!
+        users(query: String): [User!]!
+        posts(query: String): [Post!]!
+        me: User!
+        post: Post!
+    }
+
+    type User {
+        id: ID!
+        name: String!
+        email: String!
+        age: Int
+        posts: [Post!]!
+    }
+
+    type Post {
+        id: ID!
+        title: String!
+        body: String!
+        published: Boolean!
+        author: User!
     }
 `
 
-// Resolver
-
+// Resolvers
 const resolvers = {
     Query: {
-        title () {
-            return 'Experience First'
+        users(parent, args, ctx, info) {
+            if (!args.query) {
+                return users
+            }
+
+            return users.filter((user) => {
+                return user.name.toLowerCase().includes(args.query.toLowerCase())
+            })
         },
-        price () {
-            return 8.88
+        posts(parent, args, ctx, info) {
+            if (!args.query) {
+                return posts
+            }
+
+            return posts.filter((post) => {
+                const isTitleMatch = post.title.toLowerCase().includes(args.query.toLowerCase())
+                const isBodyMatch = post.body.toLowerCase().includes(args.query.toLowerCase())
+                return isTitleMatch || isBodyMatch
+            })
         },
-        releaseYear () {
-            return 2019
+        me() {
+            return {
+                id: '123098',
+                name: 'Mike',
+                email: 'mike@example.com'
+            }
         },
-        rating() {
-            return 4.8
-        },
-        inStock() {
-            return true
+        post() {
+            return {
+                id: '092',
+                title: 'GraphQL 101',
+                body: '',
+                published: false
+            }
+        }
+    },
+    Post: {
+        author(parent, args, ctx, info) {
+            return users.find((user) => {
+                return user.id === parent.author
+            })
+        }
+    },
+    User: {
+        posts(parent, args, ctx, info) {
+            return posts.filter((post) => {
+                return post.author === parent.id
+            })
         }
     }
 }
@@ -42,12 +124,6 @@ const server = new GraphQLServer({
     resolvers
 })
 
-server.start(()=> {
-    console.log('this is from the server')
+server.start(() => {
+    console.log('The server is up!')
 })
-
-
-
-// console.log(add(5, 6));
-// console.log(subs(10, 5));
-// console.log(message);
