@@ -108,9 +108,7 @@ const resolvers = {
             })
         },
         comments(parent, args, ctx, info) {
-            if(args.query) {
                 return comments
-            }
         },
         me() {
             return {
