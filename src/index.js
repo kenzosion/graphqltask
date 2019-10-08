@@ -40,16 +40,20 @@ const posts = [{
 
 const comments = [{
     id: '101',
-    text: 'Hello there'
+    text: 'Hello there',
+    author: 'A'
 }, {
     id: '102',
-    text: 'Hello there again'
+    text: 'Hello there again',
+    author: 'BB'
 }, {
     id: '103',
-    text: 'Hello there again and again'
+    text: 'Hello there again and again',
+    author: 'CCC'
 }, {
     id: '104',
-    text: 'Hello there again and again and stop'
+    text: 'Hello there again and again and stop',
+    author: 'DDDD'
 }]
 
 // Type definitions (schema)
@@ -65,6 +69,7 @@ const typeDefs = `
     type Comment {
         id: ID!
         text: String!
+        author: User!
     }
 
     type User {
