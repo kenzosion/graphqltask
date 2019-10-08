@@ -41,19 +41,19 @@ const posts = [{
 const comments = [{
     id: '101',
     text: 'Hello there',
-    author: 'A'
+    author: '3'
 }, {
     id: '102',
     text: 'Hello there again',
-    author: 'BB'
+    author: '1'
 }, {
     id: '103',
     text: 'Hello there again and again',
-    author: 'CCC'
+    author: '2'
 }, {
     id: '104',
     text: 'Hello there again and again and stop',
-    author: 'DDDD'
+    author: '1'
 }]
 
 // Type definitions (schema)
